@@ -11,9 +11,9 @@ class TrainingController extends Controller
     public function index()
     {
 
-        $Training = Training::all();
-
-        return view('Training.index', ['users' => $Training]);
+        $training = Training::all();
+        return view('Training.index', ['trainings' => $training]);
+    
     }
 
     public function new()
@@ -68,7 +68,7 @@ class TrainingController extends Controller
             }
         }
 
-        return redirect()->route('entrenamientos.index')->with('success', 'Entrenamiento creado exitosamente.');
-    
+        return redirect()->route('Trainings.index')->with('success', 'Entrenamiento creado exitosamente.');
+
     }
 }

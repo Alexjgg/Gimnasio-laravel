@@ -60,7 +60,7 @@ class RegisterController extends Controller
             $user = User::findOrFail($id);
             return view('auth.editar', compact('user'));
         } else {
-            return view('inicio');
+            return view('index');
         }
 
     }
@@ -75,7 +75,7 @@ class RegisterController extends Controller
             }
             //Validar que es admin para cambiar el rol
             if ($request->input('role') && !Auth::user()->hasRole('admin')) {
-                return redirect()->route('inicio');
+                return redirect()->route('index');
             }
 
             // Validar la request para la actualización
@@ -100,14 +100,14 @@ class RegisterController extends Controller
                     'role' => $user->role,
                 ]);
 
-                return redirect()->route('inicio')->with('success', 'Usuario actualizado correctamente');
+                return redirect()->route('index')->with('success', 'Usuario actualizado correctamente');
 
             } catch (\Exception $e) {
 
                 return back()->withErrors(['error' => 'Error al actualizar el usuario. Por favor, inténtalo de nuevo.'])->withInput();
             }
         } else {
-            return view('inicio');
+            return view('index');
         }
     }
     public function destroy($id)

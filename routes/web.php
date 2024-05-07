@@ -7,8 +7,8 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\TrainingController;
 
 Route::get('/', function () {
-    return view('inicio');
-})->name('inicio');
+    return view('index');
+})->name('index');
 
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('Login');
 Route::post('/login', [LoginController::class, 'login'])->name('Login');
@@ -41,4 +41,6 @@ Route::get('/clientes', [RegisterController::class, 'upClients'])->name('Cliente
 
 
 //Entrenamientos rutas
-Route::get('/entrenamientos/new', [TrainingController::class, 'new'])->name('New');
+Route::get('/Trainings/index', [TrainingController::class, 'index'])->name('Trainings.index');
+
+Route::get('/Trainings/new', [TrainingController::class, 'new'])->name('Trainings.New');
