@@ -2,11 +2,11 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Model;
 
 class User extends Authenticatable
 {
@@ -47,4 +47,23 @@ class User extends Authenticatable
     {
         return $this->role === $role;
     }
+
+    //Las relaciones entre Clientes y Entrenadores
+
+    /////// Entrenamientos
+    public function trainings()
+    {
+        return $this->hasMany(Training::class, 'coach_id');
+    }
+    ////usuarios del entrenador
+    public function supervisedUsers()
+    {
+        return $this->hasMany(User::class, 'supervisor_id');
+    }
+    ////El entrenador del cliente 
+    public function supervisor()
+    {
+        return $this->belongsTo(User::class, 'supervisor_id');
+    }
 }
+

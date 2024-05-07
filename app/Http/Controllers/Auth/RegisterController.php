@@ -10,6 +10,13 @@ use Illuminate\Support\Facades\Auth;
 
 class RegisterController extends Controller
 {
+    public function index()
+    {
+
+        $users = User::all();
+
+        return view('auth.index', ['users' => $users]);
+    }
     public function showRegistrationForm()
     {
         return view('auth.register');
@@ -102,5 +109,37 @@ class RegisterController extends Controller
         } else {
             return view('inicio');
         }
+    }
+    public function destroy($id)
+    {
+
+    }
+    //lA PARTE DE ENTRENADORES
+    public function upClients()
+    {
+
+        $usersWithoutTraiener = User::where('role', 'user')
+            ->whereDoesntHave('supervisor')
+            ->get();
+        $usersWithTraiener = User::where('role', 'user')
+            ->whereHas('supervisor')
+            ->get();
+
+        return view('coach.assignedClients', ['usersWithoutTraiener' => $usersWithoutTraiener, 'usersWithTraiener' => $usersWithTraiener], ['js' => ['tableChanges.js']]);
+    }
+
+    public function stroreClients()
+    {
+        //el Guardodo
+
+
+        $usersWithoutTraiener = User::where('role', 'user')
+            ->whereDoesntHave('supervisor')
+            ->get();
+        $usersWithTraiener = User::where('role', 'user')
+            ->whereHas('supervisor')
+            ->get();
+
+        return view('coach.assigned.clients.blade', ['usersWithoutTraiener' => $usersWithoutTraiener, 'usersWithTraiener' => $usersWithTraiener]);
     }
 }

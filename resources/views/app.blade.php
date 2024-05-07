@@ -22,16 +22,16 @@
             <ul class="menu_items">
                 @auth
                 <li class="">
-                    <form method="POST" action="{{ route('logout') }}">
+                    <form method="POST" action="{{ route('Logout') }}">
                         @csrf
                         <button type="submit">LogOut</button>
                     </form>
                 </li>
-                <li><a href="{{route('usuarios.editar', ['id' => auth()->id()])}}">Editar perfil</a></li>
+                <li><a href="{{route('Usuarios.editar', ['id' => auth()->id()])}}">Editar perfil</a></li>
                 @endauth
                 @guest
-                <li class=""><a href="{{ route('login') }}">Login</a></li>
-                <li class=""><a href="{{ route('login') }}">Register</a></li>
+                <li class=""><a href="{{ route('Login') }}">Login</a></li>
+                <li class=""><a href="{{ route('Register') }}">Register</a></li>
                 @endguest
             </ul>
             <span class="btn_menu">
@@ -46,6 +46,11 @@
         @yield('content')
     </div>
 </body>
+@if(isset($js))
+    @foreach ($js as $jsFile)
+    <script src="{{ asset('/resources/js/' . $jsFile) }}"></script>';
+    @endforeach
+@endif
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
     integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
     crossorigin="anonymous"></script>
