@@ -32,7 +32,7 @@ $contador = 1;
                     <td>{{$user->name}}</td>
                     <td>{{$user->email}}</td>
                     <td>{{$user->role}}</td>
-                    <td><a class="btn btn-warning" href="{{ route('usuarios.editar', ['id' => $user->id])}}" >Editar</a></td>
+                    <td><a class="btn btn-warning" href="{{ route('Users.edit', ['id' => $user->id])}}" >Editar</a></td>
                     <td><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#eliminar{{$user->id}}">Eliminar</button></td>
                     </tr>
                     <div class="modal fade" id="eliminar{{$user->id}}" tabindex="-1" aria-labelledby="exampleModalLabel"
@@ -49,7 +49,7 @@ $contador = 1;
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">No,
                                         cancelar</button>
-                                    <form action="{{route('ejercicios.destroy', $user->id)}}" method="POST">
+                                    <form action="{{route('Exercises.destroy', $user->id)}}" method="POST">
                                         @method('DELETE')
                                         @csrf
                                         <button type="submit" class="btn btn-danger">Sí, eliminar usuario</button>

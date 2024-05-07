@@ -6,13 +6,13 @@
             <h1 class="text-center">Editar usuario</h1>
         </div>
         <div class="card-body my-4">
-            <form method="POST" action="{{route('usuarios.actualizar',['id'=>$user->id])}}">
+            <form method="POST" action="{{route('Users.update', ['id' => $user->id])}}">
                 @csrf
                 @method('PUT')
                 <div class="form-group">
                     <label for="name">Name:</label>
                     <input type="text" class="form-control" name="name" id="name" aria-describedby="nameHelp"
-                        value="{{ old('name',$user->name) }}" placeholder="Introduce tu nombre">
+                        value="{{ old('name', $user->name) }}" placeholder="Introduce tu nombre">
                     @error('name')
                     <p class="alert alert-danger">{{$message}}</p>
                     @enderror
@@ -21,7 +21,7 @@
                 <div class="form-group">
                     <label for="Email">Email:</label>
                     <input type="email" class="form-control" name="email" id="Email" aria-describedby="emailHelp"
-                        value="{{ old('email',$user->email) }}" placeholder="Introduce el email">
+                        value="{{ old('email', $user->email) }}" placeholder="Introduce el email">
                     @error('email')
                     <p class="alert alert-danger">{{$message}}</p>
                     @enderror
@@ -40,9 +40,9 @@
                 <div class="form-group">
                     <label for="Select">Role:</label>
                     <select class="form-control" id="Select" name="role">
-                        <option value="user" {{ $user->role =='user' ? 'selected':''}}>User</option>
-                        <option value="entrenador" {{ $user->role =='entrenador' ? 'selected':''}}>Entrenador</option>
-                        <option value="admin" {{ $user->role =='admin' ? 'selected':''}}>Admin</option>
+                        <option value="user" {{ $user->role == 'user' ? 'selected' : ''}}>User</option>
+                        <option value="entrenador" {{ $user->role == 'entrenador' ? 'selected' : ''}}>Entrenador</option>
+                        <option value="admin" {{ $user->role == 'admin' ? 'selected' : ''}}>Admin</option>
                     </select>
                 </div>
                 @endif

@@ -9,7 +9,7 @@
             @error('email')
             <p class="text-danger">{{$message}}</p>
             @enderror
-            <form method="POST" action="{{url('login')}}">
+            <form method="POST" action="{{url('Login')}}">
                 @csrf
                 <div class="form-group">
                     <label for="Email1">Email address:</label>

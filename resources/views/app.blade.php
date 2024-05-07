@@ -27,7 +27,7 @@
                         <button type="submit">LogOut</button>
                     </form>
                 </li>
-                <li><a href="{{route('Usuarios.editar', ['id' => auth()->id()])}}">Editar perfil</a></li>
+                <li><a href="{{route('Users.edit', ['id' => auth()->id()])}}">Editar perfil</a></li>
                 @endauth
                 @guest
                 <li class=""><a href="{{ route('Login') }}">Login</a></li>

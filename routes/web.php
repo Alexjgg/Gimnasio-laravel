@@ -17,12 +17,12 @@ Route::post('/logaut', [LoginController::class, 'logout'])->name('Logout');
 Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('Register');
 Route::post('/register', [RegisterController::class, 'register'])->name('Register');
 
-Route::get('/usuarios/{id}/editar', [RegisterController::class, 'edit'])->name('Usuarios.editar');
+Route::get('/usuers/{id}/edit', [RegisterController::class, 'edit'])->name('Users.edit');
 
-Route::put('/usuarios/{id}', [RegisterController::class, 'update'])->name('Usuarios.actualizar');
+Route::put('/usuers/{id}', [RegisterController::class, 'update'])->name('Users.update');
 
 
-Route::get('/usuarios/index', [RegisterController::class, 'index'])->name('Usuarios.index');
+Route::get('/users/index', [RegisterController::class, 'index'])->name('Users.index');
 //Exercises Rutas
 
 Route::get('/exercises/index', [ExerciseController::class, 'index'])->name('Exercises.index');
