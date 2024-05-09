@@ -41,6 +41,6 @@ Route::get('/clientes', [RegisterController::class, 'upClients'])->name('Cliente
 
 
 //Entrenamientos rutas
-Route::get('/Trainings/index', [TrainingController::class, 'index'])->name('Trainings.index');
+Route::get('/trainings/index', [TrainingController::class, 'index'])->name('Trainings.index');
 
-Route::get('/Trainings/new', [TrainingController::class, 'new'])->name('Trainings.New');
+Route::get('/trainings/new', [TrainingController::class, 'new'])->name('Trainings.New');

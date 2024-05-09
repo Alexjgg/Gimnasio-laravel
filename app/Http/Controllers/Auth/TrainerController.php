@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 
+//Entrenadores
 class RegisterController extends Controller
 {
     //show clients trainers
