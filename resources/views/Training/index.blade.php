@@ -29,7 +29,7 @@
                             <td>{{$training->name}}</td>
                             <td>{{$training->day}}</td>
                             <td><a class="btn btn-warning"
-                                    href="{{ route('Exercises.edit', ['id' => $training->id])}}">Editar</a></td>
+                                    href="{{ route('Trainings.edit', ['id' => $training->id])}}">Editar</a></td>
                             <td><button type="button" class="btn btn-danger" data-toggle="modal"
                                     data-target="#eliminar{{$training->id}}">Eliminar</button></td>
                         </tr>

@@ -4,11 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use app\Models\Exercise;
+use App\Models\Exercise;
 
 //Entrenamiento
 class Training extends Model
 {
+    protected $fillable = ['id', 'name', 'day', 'trainer_id']; // Añade 'id' a $fillable
+
     use HasFactory;
     //Optengo el id del entrenador de este entrenamiento
     public function coach()

@@ -21,11 +21,10 @@ class TrainingController extends Controller
     {
         $titel = "Nuevo entrenamiento";
         $controller = route('Trainings.store');
-        $idTraining = null;
         $exercisesInTraining = [];
         $exercisesWithoutTraining = Exercise::all();
 
-        return view('Training.new', ['controller' => $controller, 'id_training' => $idTraining, 'exercisesInTraining' => $exercisesInTraining, 'exercisesWithoutTraining' => $exercisesWithoutTraining], ['js' => ['tableChanges.js']]);
+        return view('Training.new', ['titel' => $titel, 'controller' => $controller, 'exercisesInTraining' => $exercisesInTraining, 'exercisesWithoutTraining' => $exercisesWithoutTraining], ['js' => ['tableChanges.js']]);
     }
     public function edit($id)
     {
@@ -40,7 +39,7 @@ class TrainingController extends Controller
             $exercisesInTraining = $training->exercises;
             $exercisesWithoutTraining = Exercise::all()->diff($exercisesInTraining);
 
-            return view('Training.new', ['titel' => $titel, 'controller' => $controller, 'id_training' => $idTraining, 'exercisesInTraining' => $exercisesInTraining, 'exercisesWithoutTraining' => $exercisesWithoutTraining], ['js' => ['tableChanges.js']]);
+            return view('Training.new', ['training' => $training, 'titel' => $titel, 'controller' => $controller, 'id_training' => $idTraining, 'exercisesInTraining' => $exercisesInTraining, 'exercisesWithoutTraining' => $exercisesWithoutTraining], ['js' => ['tableChanges.js']]);
 
 
         } catch (\Exception $e) {
@@ -62,10 +61,11 @@ class TrainingController extends Controller
         $trainingId = ucfirst($request->input('id_training'));
 
         try {
-            $training = new Training();
 
-            if ($trainingId != null) {
-                $training->id = $trainingId;
+            if ($trainingId == "New") {
+                $training = new Training();
+            } else {
+                $training = Training::findOrFail($trainingId);
             }
             $training->name = $nameTraining;
             $training->day = $dia;
@@ -79,18 +79,14 @@ class TrainingController extends Controller
             //Compruebo el insertatdo de ejercicios
             if ($request->has('exercisesInTraining')) {
                 $exercisesIds = explode(';', $request->input('exercisesInTraining'));
-                $exercisesIds = array_unique($exercisesIds); // Eliminar duplicados
-                foreach ($exercisesIds as $exerciseId) {
-                    $exercise = Exercise::findOrFail($exerciseId);
-                    $training->exercises()->attach($exercise, ['training_id' => $trainingId]);
-                }
+                $training->exercises()->sync($exercisesIds);
+
             }
             //Compruebo los ejercicios que voy a quitar
             if ($request->has('exercisesWithoutTraining')) {
                 $exercisesIds = explode(';', $request->input('exercisesWithoutTraining'));
                 $exercisesIds = array_unique($exercisesIds); // Eliminar duplicados
                 foreach ($exercisesIds as $exerciseId) {
-
                     //Compruebo si existe el ejercicio en el entreno
                     if ($training->exercises->contains($exerciseId)) {
                         $training->exercises()->detach($exerciseId);

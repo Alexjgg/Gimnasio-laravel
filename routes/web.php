@@ -45,4 +45,8 @@ Route::get('/trainings/index', [TrainingController::class, 'index'])->name('Trai
 
 Route::get('/trainings/new', [TrainingController::class, 'new'])->name('Trainings.new');
 Route::post('/trainings/new', [TrainingController::class, 'store'])->name('Trainings.store');
+
+Route::get('/trainings/{id}', [TrainingController::class, 'edit'])->name('Trainings.edit');
+Route::post('/trainings/{id}', [TrainingController::class, 'store'])->name('Trainings.update');
+
 route::delete('/trainings/{id}', [TrainingController::class, 'destroy'])->name('Trainings.destroy');
