@@ -112,6 +112,16 @@ class RegisterController extends Controller
     }
     public function destroy($id)
     {
+        $user = user::find($id);
+
+        if (!$user) {
+            return redirect()->route('Users.index')->with('error', 'Usuario no encontrado');
+        }
+        if ($user->user_id == auth()->user()->id || auth()->user()->role == 'admin') {
+            $user->delete();
+            return redirect()->route('Users.index')->with('success', 'Usuario eliminado correctamente');
+        }
+        return redirect()->route('Users.index')->with('error', 'No tienes permisos para eliminar este Usuario');
 
     }
     //lA PARTE DE ENTRENADORES

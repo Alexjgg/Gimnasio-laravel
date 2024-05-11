@@ -17,12 +17,14 @@ Route::post('/logaut', [LoginController::class, 'logout'])->name('Logout');
 Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('Register');
 Route::post('/register', [RegisterController::class, 'register'])->name('Register');
 
-Route::get('/usuers/{id}/edit', [RegisterController::class, 'edit'])->name('Users.edit');
+Route::get('/users/{id}', [RegisterController::class, 'edit'])->name('Users.edit');
+Route::put('/users/{id}', [RegisterController::class, 'update'])->name('Users.update');
 
-Route::put('/usuers/{id}', [RegisterController::class, 'update'])->name('Users.update');
-
-
+//Rutas admin
 Route::get('/users/index', [RegisterController::class, 'index'])->name('Users.index');
+
+route::delete('/users/{id}', [RegisterController::class, 'destroy'])->name('Users.destroy');
+
 //Exercises Rutas
 
 Route::get('/exercises/index', [ExerciseController::class, 'index'])->name('Exercises.index');
