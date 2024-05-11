@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use app\Models\Ejercicioo;
+use app\Models\Exercise;
 
 //Entrenamiento
 class Training extends Model
@@ -18,6 +18,6 @@ class Training extends Model
     //Optengo los ejercicios del entrenamiento
     public function exercises()
     {
-        return $this->belongsToMany(Exercise::class)->withTimestamps()->withPivot('id');
+        return $this->belongsToMany(Exercise::class, 'training_exercise')->withTimestamps()->withPivot('id');
     }
 }

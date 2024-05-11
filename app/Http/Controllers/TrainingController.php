@@ -19,58 +19,108 @@ class TrainingController extends Controller
 
     public function new()
     {
+        $titel = "Nuevo entrenamiento";
+        $controller = route('Trainings.store');
         $idTraining = null;
         $exercisesInTraining = [];
         $exercisesWithoutTraining = Exercise::all();
 
-        return view('Training.new', ['idTraining' => $idTraining, 'exercisesInTraining' => $exercisesInTraining, 'exercisesWithoutTraining' => $exercisesWithoutTraining], ['js' => ['tableChanges.js']]);
+        return view('Training.new', ['controller' => $controller, 'id_training' => $idTraining, 'exercisesInTraining' => $exercisesInTraining, 'exercisesWithoutTraining' => $exercisesWithoutTraining], ['js' => ['tableChanges.js']]);
     }
-    public function edit()
+    public function edit($id)
     {
+        // En id hay que hace comprobaciones
 
-        $exercisesInTraining = Training::where('role', 'user')
-            ->whereDoesntHave('supervisor')
-            ->get();
-        $exercisesWithoutTraining = Training::where('role', 'user')
-            ->whereHas('supervisor')
-            ->get();
+        $titel = "Editando entrenamiento";
+        $controller = route('Trainings.store');
+        try {
+            $training = Training::findOrFail($id);
+            $idTraining = $id;
 
-        return view('coach.assignedClients', ['exercisesInTraining' => $exercisesInTraining, 'exercisesWithoutTraining' => $exercisesWithoutTraining], ['js' => ['tableChanges.js']]);
+            $exercisesInTraining = $training->exercises;
+            $exercisesWithoutTraining = Exercise::all()->diff($exercisesInTraining);
+
+            return view('Training.new', ['titel' => $titel, 'controller' => $controller, 'id_training' => $idTraining, 'exercisesInTraining' => $exercisesInTraining, 'exercisesWithoutTraining' => $exercisesWithoutTraining], ['js' => ['tableChanges.js']]);
+
+
+        } catch (\Exception $e) {
+            return redirect()->back()->withInput()->withErrors(['errors' => 'Error al editar Entrenamiento: ' . $e->getMessage()]);
+        }
+
     }
     //Guardado de entrenamientos
-    public function strore(Request $request)
+    public function store(Request $request)
     {
-
         $request->validate([
-            'nombre' => 'required|string|max:255',
-            'descripcion' => 'required|string|max:255',
+            'nameTraining' => 'required|string|max:255',
             'dia' => ['required', 'string', 'in:Lunes,Martes,Miércoles,Jueves,Viernes,Sábado,Domingo'],
-            // Añade reglas de validación adicionales según tus necesidades
         ]);
 
         //Limpiando codigo, hacer una fucion para limpiar todas las request primero, para el resto de controllers importante
-        $nombre = htmlspecialchars(strip_tags($request->input('nombre')));
-        $descripcion = htmlspecialchars(strip_tags($request->input('descripcion')));
+        $nameTraining = htmlspecialchars(strip_tags($request->input('nameTraining')));
         $dia = ucfirst($request->input('dia'));
+        $trainingId = ucfirst($request->input('id_training'));
 
-        // Crear un nuevo entrenamiento
-        $training = new Training();
-        $training->nombre = $nombre;
-        $training->descripcion = $descripcion;
-        $training->descripcion = $dia;
-        $training->save();
+        try {
+            $training = new Training();
 
-        //En un futuro comprobar que los ejercicios son los de los propios entrenador
-        // Asociar ejercicios al entrenamiento      
-        if ($request->has('ejercicios')) {
-            $ejerciciosIds = array_unique($request->ejercicios); // Eliminar duplicados
-            foreach ($ejerciciosIds as $ejercicioId) {
-                $exercise = Exercise::findOrFail($ejercicioId);
-                $training->exercises()->attach($exercise);
+            if ($trainingId != null) {
+                $training->id = $trainingId;
             }
+            $training->name = $nameTraining;
+            $training->day = $dia;
+            $training->trainer_id = auth()->user()->id;
+            $training->save();
+
+            //En un futuro comprobar que los ejercicios son los de los propios entrenador
+            // Asociar ejercicios al entrenamiento 
+
+
+            //Compruebo el insertatdo de ejercicios
+            if ($request->has('exercisesInTraining')) {
+                $exercisesIds = explode(';', $request->input('exercisesInTraining'));
+                $exercisesIds = array_unique($exercisesIds); // Eliminar duplicados
+                foreach ($exercisesIds as $exerciseId) {
+                    $exercise = Exercise::findOrFail($exerciseId);
+                    $training->exercises()->attach($exercise, ['training_id' => $trainingId]);
+                }
+            }
+            //Compruebo los ejercicios que voy a quitar
+            if ($request->has('exercisesWithoutTraining')) {
+                $exercisesIds = explode(';', $request->input('exercisesWithoutTraining'));
+                $exercisesIds = array_unique($exercisesIds); // Eliminar duplicados
+                foreach ($exercisesIds as $exerciseId) {
+
+                    //Compruebo si existe el ejercicio en el entreno
+                    if ($training->exercises->contains($exerciseId)) {
+                        $training->exercises()->detach($exerciseId);
+                    }
+                }
+            }
+            return redirect()->route('Trainings.index')->with('success', 'Entrenamiento creado correctamente');
+        } catch (\Exception $e) {
+            return redirect()->back()->withInput()->withErrors(['errors' => 'Error al guardar el entrenamiento: ' . $e->getMessage()]);
+        }
+    }
+    public function destroy($id)
+    {
+        $training = Training::find($id);
+
+        if (!$training) {
+            return redirect()->route('Trainings.index')->with('error', 'Entrenamiento no encontrado');
         }
 
-        return redirect()->route('Trainings.index')->with('success', 'Entrenamiento creado exitosamente.');
+        if ($training->trainer_id == auth()->user()->id || auth()->user()->role == 'admin') {
+
+            try {
+                $training->delete();
+                return redirect()->route('Trainings.index')->with('success', 'Entrenamiento borrado correctamente');
+            } catch (\Exception $e) {
+                return redirect()->back()->withInput()->withErrors(['errors' => 'Error al intentar borrar el entrenamiento: ' . $e->getMessage()]);
+            }
+
+        }
+        return redirect()->route('Trainings.index')->with('error', 'Entrenamiento no tienes permisos para borrar este entrenamiento');
 
     }
 }

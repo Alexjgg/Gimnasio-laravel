@@ -3,7 +3,11 @@
 <div class="row justify-content-center">
     <div class="card mt-4 w-75">
         <div class="card-header">
-            <h1 class="text-center">Entrenamiento</h1>
+            <h1 class="text-center">
+                @if($titel)
+                    {{$titel}}
+                @endif  
+            </h1>
         </div>
         <div class="card-body m-4">
             @if(session('success'))
@@ -12,7 +16,8 @@
 
             <div class="row m-2">
                 <div class="col">
-                    <form>
+                    <form method="POST" action="{{$controller}}">
+                        @csrf
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group p-2">
@@ -22,7 +27,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group p-2">
-                                    <label for="Day-training">Nombre del entrenamiento:</label>
+                                    <label for="Day-training">Día del entrenamiento:</label>
                                     <select class="form-control shadow-sm p-2 mb-3 bg-white rounded" name="dia"
                                         id="dia">
                                         <option value="">Selecciona un día</option>
@@ -33,14 +38,19 @@
                                 </div>
                             </div>
                         </div>
-                        <input type="hidden" name="idTraining" value="{{$idTraining}}">
+                        <input type="hidden" name="id_training" value="{{$id_training}}">
                         <input type="hidden" name="exercisesInTraining" id="left-table-form">
                         <input type="hidden" name="exercisesWithoutTraining" id="right-table-form">
                         <button type="submit" class="btn btn-primary">Guardar</button>
                     </form>
                 </div>
             </div>
+            @error('errors')
+                <div>
+                    <p class="alert alert-danger">{{$message}}</p>
+                </div>
 
+            @enderror
             <div class="row">
                 <div class="col">
                     <h2>Ejercicios del entrenamiento</h2>

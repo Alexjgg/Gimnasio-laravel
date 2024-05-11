@@ -48,7 +48,7 @@
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">No,
                                             cancelar</button>
-                                        <form action="{{route('trainings.destroy', $training->id)}}" method="POST">
+                                        <form action="{{route('Trainings.destroy', $training->id)}}" method="POST">
                                             @method('DELETE')
                                             @csrf
                                             <button type="submit" class="btn btn-danger">Sí, eliminar ejercicio</button>

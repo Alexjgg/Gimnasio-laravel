@@ -70,7 +70,6 @@ class ExerciseController extends Controller
             'repetitions' => 'required|string',
             'duracion' => 'required|string',
         ]);
-
         try {
             $exercise = Exercise::findOrFail($id);
 
