@@ -10,7 +10,8 @@
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <!-- style bootstrap -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+        integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
     <!-- Estilos de AsnevesFit --->
     <link rel="stylesheet" href="{{ asset('/resources/css/asnevesfit.css') }}">
 </head>
@@ -27,6 +28,8 @@
                         <button type="submit">LogOut</button>
                     </form>
                 </li>
+
+                <li class=""><a href="{{ route('Users.index') }}">index</a></li>
                 <li><a href="{{route('Users.edit', ['id' => auth()->id()])}}">Editar perfil</a></li>
                 @endauth
                 @guest
@@ -47,9 +50,9 @@
     </div>
 </body>
 @if(isset($js))
-    @foreach ($js as $jsFile)
-    <script src="{{ asset('/resources/js/' . $jsFile) }}"></script>';
-    @endforeach
+@foreach ($js as $jsFile)
+<script src="{{ asset('/resources/js/' . $jsFile) }}"></script>';
+@endforeach
 @endif
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
     integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"

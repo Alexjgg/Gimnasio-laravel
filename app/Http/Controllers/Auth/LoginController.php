@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class LoginController extends Controller
 {
@@ -20,9 +21,17 @@ class LoginController extends Controller
             'password' => 'required',
         ]);
 
-        if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
-            return redirect()->intended('/');
+        $user = User::where('email', $credentials['email'])->first();
+
+        if ($user) {
+
+            $passwordMatch = \Hash::check($credentials['password'], $user->password);
+            if ($passwordMatch) {
+                // Autenticación exitosa
+                Auth::login($user);
+                $request->session()->regenerate();
+                return redirect()->intended('/');
+            }
         }
 
         return back()->withErrors(['email' => 'Las credenciales proporcionadas no son válidas']);

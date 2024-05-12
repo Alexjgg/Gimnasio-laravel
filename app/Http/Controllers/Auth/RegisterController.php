@@ -12,9 +12,7 @@ class RegisterController extends Controller
 {
     public function index()
     {
-
         $users = User::all();
-
         return view('auth.index', ['users' => $users]);
     }
     public function showRegistrationForm()
