@@ -4,6 +4,7 @@ use App\Http\Controllers\ExerciseController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\TrainerController;
 use App\Http\Controllers\TrainingController;
 
 Route::get('/', function () {
@@ -35,7 +36,7 @@ Route::post('/exercises/new', [ExerciseController::class, 'store'])->name('Exerc
 Route::get('/exercises/{id}', [ExerciseController::class, 'edit'])->name('Exercises.edit');
 Route::post('/exercises/{id}', [ExerciseController::class, 'update'])->name('Exercises.update');
 
-route::delete('/exercises/{id}', [ExerciseController::class, 'destroy'])->name('Exercises.destroy');
+Route::delete('/exercises/{id}', [ExerciseController::class, 'destroy'])->name('Exercises.destroy');
 
 //Entrenadores Rutas
 Route::get('/clientes', [RegisterController::class, 'upClients'])->name('Clientes');
@@ -50,4 +51,10 @@ Route::post('/trainings/new', [TrainingController::class, 'store'])->name('Train
 Route::get('/trainings/{id}', [TrainingController::class, 'edit'])->name('Trainings.edit');
 Route::post('/trainings/{id}', [TrainingController::class, 'store'])->name('Trainings.update');
 
-route::delete('/trainings/{id}', [TrainingController::class, 'destroy'])->name('Trainings.destroy');
+Route::delete('/trainings/{id}', [TrainingController::class, 'destroy'])->name('Trainings.destroy');
+
+//Rutas de Entrenadores
+Route::get('/trainers/index', [TrainerController::class, 'index'])->name('Trainers.index');
+
+Route::get('/trainers/store', [TrainerController::class, 'formUsers'])->name('Trainers.formUser');
+Route::post('/trainers/store', [TrainerController::class, 'storeUsers'])->name('Trainer.storeUsers');
