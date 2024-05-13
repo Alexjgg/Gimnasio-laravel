@@ -3,7 +3,7 @@
 <div class="row justify-content-center">
     <div class="card mt-4 w-75">
         <div class="card-header">
-            <h1 class="text-center">Entrenamientos</h1>
+            <h1 class="text-center">Mis clientes</h1>
         </div>
         <div class="card-body m-4">
             @if(session('success'))
@@ -14,7 +14,7 @@
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Nombre</th>
-                        <th scope="col">Día</th>
+                        <th scope="col">Email</th>
                         <th scope="col">Editar</th>
                         <th scope="col">Eliminar</th>
                     </tr>
@@ -23,18 +23,18 @@
                     @php
                         $contador = 1;
                     @endphp
-                    @foreach ($trainings as $training)
+                    @foreach ($users as $user)
                         <tr>
                             <th scope="row">{{$contador++}}</th>
-                            <td>{{$training->name}}</td>
-                            <td>{{$training->day}}</td>
+                            <td>{{$user->name}}</td>
+                            <td>{{$user->email}}</td>
                             <td><a class="btn btn-warning"
-                                    href="{{ route('Trainings.edit', ['id' => $training->id])}}">Editar</a></td>
+                                    href="{{ route('Trainings.edit', ['id' => $user->id])}}">Editar</a></td>
                             <td><button type="button" class="btn btn-danger" data-toggle="modal"
-                                    data-target="#eliminar{{$training->id}}">Eliminar</button></td>
+                                    data-target="#eliminar{{$user->id}}">Eliminar</button></td>
                         </tr>
-                        <div class="modal fade" id="eliminar{{$training->id}}" tabindex="-1"
-                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal fade" id="eliminar{{$user->id}}" tabindex="-1" aria-labelledby="exampleModalLabel"
+                            aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -43,12 +43,12 @@
                                             aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        ¿Está seguro que desea eliminar el ejercicio <strong>{{ $training->name }}</strong>?
+                                        ¿Está seguro que desea eliminar el ejercicio <strong>{{ $user->name }}</strong>?
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">No,
                                             cancelar</button>
-                                        <form action="{{route('Trainings.destroy', $training->id)}}" method="POST">
+                                        <form action="{{route('Trainings.destroy', $user->id)}}" method="POST">
                                             @method('DELETE')
                                             @csrf
                                             <button type="submit" class="btn btn-danger">Sí, eliminar ejercicio</button>

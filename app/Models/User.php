@@ -55,15 +55,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Training::class, 'coach_id');
     }
-    ////usuarios del entrenador
-    public function supervisedUsers()
+    // Un usuario solo puede tener asociado un entrenador
+    public function coach()
     {
-        return $this->hasMany(User::class, 'supervisor_id');
+        return $this->belongsTo(User::class, 'coach_id');
     }
-    ////El entrenador del cliente 
-    public function supervisor()
-    {
-        return $this->belongsTo(User::class, 'supervisor_id');
-    }
-}
 
+}

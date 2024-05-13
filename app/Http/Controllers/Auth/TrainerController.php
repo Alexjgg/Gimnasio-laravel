@@ -15,7 +15,7 @@ class TrainerController extends Controller
         //Mis clientes
         $users = User::where('coach_id', auth()->user()->id)->get();
 
-        return $users;
+        return view('Trainers.index', ['users' => $users]);
     }
     //show formClientsUp
     public function formUsers()
@@ -34,37 +34,40 @@ class TrainerController extends Controller
     }
 
     //strore clients trainer
-    public function stroreUsers(Request $request)
+    public function storeUsers(Request $request)
     {
         //Falta try catch y comprobaciones
-        $request->validate([
-            'userWithTrainer' => 'required|array',
-            'userWithoutTrainer' => 'required|array',
-        ]);
+
+
+
 
         $usersWithTrainerIds = explode(';', $request->input('userWithTrainer'));
         $usersWithoutTrainerIds = explode(';', $request->input('userWithoutTrainer'));
-        //Insertado de usuarios en coach
-        foreach ($usersWithTrainerIds as $userId) {
 
-            $user = User::findOrFail($userId);
-            $user->coach_id = auth()->user()->id;
+        try {
+            foreach ($usersWithTrainerIds as $userId) {
 
-            // Guardar los cambios en la base de datos
-            $user->save();
+                $user = User::findOrFail($userId);
+                $user->coach_id = auth()->user()->id;
+
+                // Guardar los cambios en la base de datos
+                $user->save();
+            }
+
+            // Desasociar usuarios de entrenador
+            foreach ($usersWithoutTrainerIds as $userId) {
+                // Obtener el usuario de la base de datos
+                $user = User::findOrFail($userId);
+
+                $user->coach_id = null;
+
+                // Guardar los cambios en la base de datos
+                $user->save();
+            }
+        } catch (\Exception $e) {
+
+            return back()->withErrors(['error' => $e . 'Error al actualizar el usuario. Por favor, inténtalo de nuevo.'])->withInput();
         }
-
-        // Desasociar usuarios de entrenador
-        foreach ($usersWithoutTrainerIds as $userId) {
-            // Obtener el usuario de la base de datos
-            $user = User::findOrFail($userId);
-
-            $user->coach_id = null;
-
-            // Guardar los cambios en la base de datos
-            $user->save();
-        }
-
-        return route('Trainers.index');
+        return view('Trainers.index');
     }
 }
