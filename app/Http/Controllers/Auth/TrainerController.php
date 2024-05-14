@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Training;
 
 //Entrenadores
 class TrainerController extends Controller
@@ -70,4 +71,55 @@ class TrainerController extends Controller
         }
         return view('Trainers.index');
     }
+    public function remove($id)
+    {
+        //Comprar que es un id entero y comprobar si es de este entrenador
+
+        try {
+            $clientId = $id;
+            $trainerId = auth()->user()->id;
+            $client = User::where('id', $clientId)
+                ->where('coach_id', $trainerId)
+                ->firstOrFail();
+
+            // Desasociar al usuario
+            $client->coach_id = null;
+            $client->save();
+
+            return response()->json(['message' => 'El usuario ha sido quitado correctamente.'], 200);
+
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Error al quitar el usuario. Por favor, inténtalo de nuevo.'], 500);
+        }
+
+    }
+    public function showUserTrainings($userId)
+    {
+        //Comprar que el que el entrenador de este cliente es el de la session
+
+
+        
+        $user = User::findOrFail($userId);
+
+        $trainerId = $user->coach_id;
+
+        $trainingsAssigned = $user->trainings;
+
+        // Obtener los entrenamientos del entrenador del usuario
+        $trainingsAvailable = Training::where('coach_id', $trainerId)
+            ->whereDoesntHave('users', function ($query) use ($userId) {
+                $query->where('user_id', $userId);
+            })
+            ->get();
+
+        return view('trainings.show', compact('trainingsAssigned', 'trainingsAvailable'));
+    }
+
+    public function assignTrainings($id)
+    {
+
+
+
+    }
+
 }

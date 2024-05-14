@@ -57,4 +57,7 @@ Route::delete('/trainings/{id}', [TrainingController::class, 'destroy'])->name('
 Route::get('/trainers/index', [TrainerController::class, 'index'])->name('Trainers.index');
 
 Route::get('/trainers/store', [TrainerController::class, 'formUsers'])->name('Trainers.formUser');
+Route::get('/trainers/trainings/{id}', [TrainerController::class, 'showUserTrainings'])->name('Trainer.showUserTrainings');
+
 Route::post('/trainers/store', [TrainerController::class, 'storeUsers'])->name('Trainer.storeUsers');
+Route::post('/trainers/remove/{id}', [TrainerController::class, 'remove'])->name('Trainer.remove');

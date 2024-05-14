@@ -29,26 +29,26 @@
                             <td>{{$user->name}}</td>
                             <td>{{$user->email}}</td>
                             <td><a class="btn btn-warning"
-                                    href="{{ route('Trainings.edit', ['id' => $user->id])}}">Editar</a></td>
+                                    href="{{ route('Trainer.showUserTrainings', ['id' => $user->id])}}">Entrenos</a></td>
                             <td><button type="button" class="btn btn-danger" data-toggle="modal"
-                                    data-target="#eliminar{{$user->id}}">Eliminar</button></td>
+                                    data-target="#eliminar{{$user->id}}">Quitar</button></td>
                         </tr>
                         <div class="modal fade" id="eliminar{{$user->id}}" tabindex="-1" aria-labelledby="exampleModalLabel"
                             aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title">Eliminar ejercicio</h5>
+                                        <h5 class="modal-title">Quitar usuario</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                             aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        ¿Está seguro que desea eliminar el ejercicio <strong>{{ $user->name }}</strong>?
+                                        ¿Está seguro que desea quitar a <strong>{{ $user->name }}</strong>?
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">No,
                                             cancelar</button>
-                                        <form action="{{route('Trainings.destroy', $user->id)}}" method="POST">
+                                        <form action="{{route('Trainer.remove', $user->id)}}" method="POST">
                                             @method('DELETE')
                                             @csrf
                                             <button type="submit" class="btn btn-danger">Sí, eliminar ejercicio</button>

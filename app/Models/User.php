@@ -53,7 +53,7 @@ class User extends Authenticatable
     /////// Entrenamientos
     public function trainings()
     {
-        return $this->hasMany(Training::class, 'coach_id');
+        return $this->belongsToMany(Training::class, 'user_training', 'user_id', 'training_id');
     }
     // Un usuario solo puede tener asociado un entrenador
     public function coach()
