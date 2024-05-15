@@ -13,13 +13,17 @@ class Training extends Model
 
     use HasFactory;
     //Optengo el id del entrenador de este entrenamiento
-    public function coach()
+    public function trainer()
     {
-        return $this->belongsTo(User::class, 'coach_id');
+        return $this->belongsTo(User::class, 'trainer_id');
     }
     //Optengo los ejercicios del entrenamiento
     public function exercises()
     {
         return $this->belongsToMany(Exercise::class, 'training_exercise')->withTimestamps()->withPivot('id');
+    }
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'user_training');
     }
 }

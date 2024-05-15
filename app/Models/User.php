@@ -56,9 +56,14 @@ class User extends Authenticatable
         return $this->belongsToMany(Training::class, 'user_training', 'user_id', 'training_id');
     }
     // Un usuario solo puede tener asociado un entrenador
-    public function coach()
+    public function trainer()
     {
-        return $this->belongsTo(User::class, 'coach_id');
+        return $this->belongsTo(User::class, 'trainer_id');
     }
 
+    //un entrenador puede tener varios clientes
+    public function trainees()
+    {
+        return $this->hasMany(User::class, 'trainer_id');
+    }
 }

@@ -122,32 +122,6 @@ class RegisterController extends Controller
         return redirect()->route('Users.index')->with('error', 'No tienes permisos para eliminar este Usuario');
 
     }
-    //lA PARTE DE ENTRENADORES
-    public function upClients()
-    {
-
-        $usersWithoutTraiener = User::where('role', 'user')
-            ->whereDoesntHave('supervisor')
-            ->get();
-        $usersWithTraiener = User::where('role', 'user')
-            ->whereHas('supervisor')
-            ->get();
-
-        return view('coach.assignedClients', ['usersWithoutTraiener' => $usersWithoutTraiener, 'usersWithTraiener' => $usersWithTraiener], ['js' => ['tableChanges.js']]);
-    }
-
-    public function stroreClients()
-    {
-        //el Guardodo
 
 
-        $usersWithoutTraiener = User::where('role', 'user')
-            ->whereDoesntHave('supervisor')
-            ->get();
-        $usersWithTraiener = User::where('role', 'user')
-            ->whereHas('supervisor')
-            ->get();
-
-        return view('coach.assigned.clients.blade', ['usersWithoutTraiener' => $usersWithoutTraiener, 'usersWithTraiener' => $usersWithTraiener]);
-    }
 }

@@ -14,7 +14,7 @@ class TrainerController extends Controller
     public function index()
     {
         //Mis clientes
-        $users = User::where('coach_id', auth()->user()->id)->get();
+        $users = User::where('trainer_id', auth()->user()->id)->get();
 
         return view('Trainers.index', ['users' => $users]);
     }
@@ -25,10 +25,10 @@ class TrainerController extends Controller
         $controller = route('Trainer.storeUsers');
 
         $userWithoutTrainer = User::where('role', 'user')
-            ->whereDoesntHave('supervisor')
+            ->whereDoesntHave('trainer')
             ->get();
         $userWithTrainer = User::where('role', 'user')
-            ->whereHas('supervisor')
+            ->whereHas('trainer')
             ->get();
 
         return view('Trainers.storeUsers', ['titel' => $titel, 'controller' => $controller, 'userWithoutTrainer' => $userWithoutTrainer, 'userWithTrainer' => $userWithTrainer], ['js' => ['tableChanges.js']]);
@@ -49,7 +49,7 @@ class TrainerController extends Controller
             foreach ($usersWithTrainerIds as $userId) {
 
                 $user = User::findOrFail($userId);
-                $user->coach_id = auth()->user()->id;
+                $user->trainer_id = auth()->user()->id;
 
                 // Guardar los cambios en la base de datos
                 $user->save();
@@ -60,7 +60,7 @@ class TrainerController extends Controller
                 // Obtener el usuario de la base de datos
                 $user = User::findOrFail($userId);
 
-                $user->coach_id = null;
+                $user->trainer_id = null;
 
                 // Guardar los cambios en la base de datos
                 $user->save();
@@ -69,7 +69,7 @@ class TrainerController extends Controller
 
             return back()->withErrors(['error' => $e . 'Error al actualizar el usuario. Por favor, inténtalo de nuevo.'])->withInput();
         }
-        return view('Trainers.index');
+        return redirect()->route('Trainers.index');
     }
     public function remove($id)
     {
@@ -79,11 +79,11 @@ class TrainerController extends Controller
             $clientId = $id;
             $trainerId = auth()->user()->id;
             $client = User::where('id', $clientId)
-                ->where('coach_id', $trainerId)
+                ->where('trainer_id', $trainerId)
                 ->firstOrFail();
 
             // Desasociar al usuario
-            $client->coach_id = null;
+            $client->trainer_id = null;
             $client->save();
 
             return response()->json(['message' => 'El usuario ha sido quitado correctamente.'], 200);
@@ -98,15 +98,15 @@ class TrainerController extends Controller
         //Comprar que el que el entrenador de este cliente es el de la session
 
 
-        
+
         $user = User::findOrFail($userId);
 
-        $trainerId = $user->coach_id;
+        $trainerId = $user->trainer_id;
 
         $trainingsAssigned = $user->trainings;
 
         // Obtener los entrenamientos del entrenador del usuario
-        $trainingsAvailable = Training::where('coach_id', $trainerId)
+        $trainingsAvailable = Training::where('trainer_id', $trainerId)
             ->whereDoesntHave('users', function ($query) use ($userId) {
                 $query->where('user_id', $userId);
             })
