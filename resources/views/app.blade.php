@@ -44,10 +44,59 @@
 
     </header>
 
+    <div class="container-fluid container-vhs">
+        <div class="row">
+            <!-- Aside -->
+            <aside class="col-md-3 aside-container">
+                <h3>Menú Lateral</h3>
+                <ul>
+                    <li ><a class="btn-green" href="{{ route('Exercises.index') }}">Ejercicios</a></li>
+                    <li ><a class="btn-green" href="{{route('Exercises.create')}}">Nuevo Ejercicio</a></li>
+                    <li ><a class="btn-green" href="{{route('Trainings.index')}}">Entrenamientos</a></li>
+                    <li ><a class="btn-green" href="{{route('Trainings.store')}}">Nuevo entrenamiento</a></li>
+                        
+                    <!-- Agrega más opciones según sea necesario -->
+                </ul>
+            </aside>
 
-    <div class="container-fluid">
-        @yield('content')
+            <!-- Contenido principal -->
+            <main class="col-md-9">
+                @yield('content')
+            </main>
+        </div>
     </div>
+
+    <footer class="bg-dark text-light sticky-footer py-4">
+      <div class="row">
+        <div class="col-md-4">
+          <h5>Enlaces útiles</h5>
+          <ul class="list-unstyled">
+            <li><a href="#">Inicio</a></li>
+            <li><a href="#">Acerca de nosotros</a></li>
+            <li><a href="#">Servicios</a></li>
+            <li><a href="#">Contacto</a></li>
+          </ul>
+        </div>
+        <div class="col-md-4">
+          <h5>Contacto</h5>
+          <address>
+            <strong>Nombre de la empresa</strong><br>
+            Dirección de la empresa<br>
+            Ciudad, País<br>
+            Teléfono: 123-456-7890<br>
+            Correo electrónico: info@empresa.com
+          </address>
+        </div>
+        <div class="col-md-4">
+          <h5>Redes Sociales</h5>
+          <ul class="list-unstyled">
+            <li><a href="#"><i class="fab fa-facebook"></i> Facebook</a></li>
+            <li><a href="#"><i class="fab fa-twitter"></i> Twitter</a></li>
+            <li><a href="#"><i class="fab fa-instagram"></i> Instagram</a></li>
+          </ul>
+        </div>
+      </div>
+  </footer>
 </body>
 @if(isset($js))
 @foreach ($js as $jsFile)

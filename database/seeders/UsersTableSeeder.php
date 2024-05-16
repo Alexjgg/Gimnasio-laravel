@@ -12,16 +12,30 @@ class UsersTableSeeder extends Seeder
     /**
      * Run the database seeds.
      */
-    public function run(): void
+     public function run(): void
     {
-        for ($i = 1; $i <= 10; $i++) {
-            User::create([
-                'name' => 'User ' . $i,
-                'email' => 'user' . $i . '@example.com',
-                'role' => 'user',
-                'password' => bcrypt('password'), // Cambia 'password' por la contraseña deseada
-            ]);
-        }
+    //     User::create([
+    //         'name' => 'Admin',
+    //         'email' => 'admin@example.com',
+    //         'role' => 'admin',
+    //         'password' => bcrypt('password'), // Cambia 'password' por la contraseña deseada
+    //     ]);
+        
+    //     User::create([
+    //         'name' => 'Entrenador',
+    //         'email' => 'Entrenador@example.com',
+    //         'role' => 'trainer',
+    //         'password' => bcrypt('password'), // Cambia 'password' por la contraseña deseada
+    //     ]);
+
+    //     for ($i = 2; $i <= 10; $i++) {
+    //         User::create([
+    //             'name' => 'User ' . $i,
+    //             'email' => 'user' . $i . '@example.com',
+    //             'role' => 'user',
+    //             'password' => bcrypt('password'), // Cambia 'password' por la contraseña deseada
+    //         ]);
+    //     }
 
 
         $exercises = [

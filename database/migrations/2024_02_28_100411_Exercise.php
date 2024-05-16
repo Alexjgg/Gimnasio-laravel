@@ -10,9 +10,8 @@ return new class extends Migration {
      * Run the migrations.
      */
     public function up(): void
-    {
-        //
-        Schema::create('Exercises', function (Blueprint $table) {
+    {   
+        Schema::create('exercises', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
@@ -23,6 +22,7 @@ return new class extends Migration {
             $table->rememberToken();
             $table->timestamps();
         });
+        
     }
 
     /**
@@ -31,6 +31,6 @@ return new class extends Migration {
     public function down(): void
     {
         //
-        Schema::dropIfExists('Exercises');
+        Schema::dropIfExists('exercises');
     }
 };
