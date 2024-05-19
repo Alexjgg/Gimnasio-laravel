@@ -5,26 +5,35 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Exercise;
 use App\Models\Training;
-
+USE Illuminate\Support\Facades\Auth;
 //Entrenamientos
 class TrainingController extends Controller
 {
     public function index()
     {
+      //  if(Auth::check() && auth()->user()->role == "training"){
 
         $training = Training::all();
         return view('Training.index', ['trainings' => $training]);
+        
+        //}
+        return view('index');
 
     }
 
     public function new()
     {
-        $titel = "Nuevo entrenamiento";
-        $controller = route('Trainings.store');
-        $exercisesInTraining = [];
-        $exercisesWithoutTraining = Exercise::all();
+        //if(Auth::check() && auth()->user()->role == "training"){
 
-        return view('Training.new', ['titel' => $titel, 'controller' => $controller, 'exercisesInTraining' => $exercisesInTraining, 'exercisesWithoutTraining' => $exercisesWithoutTraining], ['js' => ['tableChanges.js']]);
+            $titel = "Nuevo entrenamiento";
+            $controller = route('Trainings.store');
+            $exercisesInTraining = [];
+            $exercisesWithoutTraining = Exercise::all();
+
+            return view('Training.new', ['titel' => $titel, 'controller' => $controller, 'exercisesInTraining' => $exercisesInTraining, 'exercisesWithoutTraining' => $exercisesWithoutTraining], ['js' => ['tableChanges.js']]);
+        //}
+      return view('index');
+
     }
     public function edit($id)
     {
