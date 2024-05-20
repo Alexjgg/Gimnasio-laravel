@@ -6,6 +6,11 @@
             <h1 class="text-center">Mis clientes</h1>
         </div>
         <div class="card-body m-4">
+        <div class="row pt-4 pb-4">
+            <div class="col-8 mt-4 mb-4">
+            <a class="btn btn-green" href="{{route('Trainers.formUser')}}">Editar mis clientes</a>
+            </div>
+        </div>
             @if(session('success'))
                 <h6 class="alert alert-success">{{session('success')}}</h6>
             @endif
