@@ -22,12 +22,7 @@ class RegisterController extends Controller
 
     public function register(Request $request)
     {
-        $originalName = $request->input('name');
-
-        $cleanedName = filter_var($originalName, FILTER_SANITIZE_STRING);
-        if ($originalName != $cleanedName) {
-            return back()->withErrors(['error' => 'El campo name contiene caracteres especiales no permitidos.'])->withInput();
-        }
+     
 
         $request->validate([
             'name' => 'required|string|max:255',
@@ -65,12 +60,7 @@ class RegisterController extends Controller
     public function update(Request $request, $id)
     {
         if (Auth::user()->hasRole('admin') || Auth::user()->id == $id) {
-            $originalName = $request->input('name');
-
-            $cleanedName = filter_var($originalName, FILTER_SANITIZE_STRING);
-            if ($originalName != $cleanedName) {
-                return back()->withErrors(['error' => 'El campo name contiene caracteres especiales no permitidos.'])->withInput();
-            }
+       
             //Validar que es admin para cambiar el rol
             if ($request->input('role') && !Auth::user()->hasRole('admin')) {
                 return redirect()->route('index');
