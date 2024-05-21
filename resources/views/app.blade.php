@@ -54,7 +54,7 @@
                     <li ><a class="btn-green" href="{{route('Exercises.create')}}">Nuevo Ejercicio</a></li>
                     <li ><a class="btn-green" href="{{route('Trainings.index')}}">Entrenamientos</a></li>
                     <li ><a class="btn-green" href="{{route('Trainings.store')}}">Nuevo entrenamiento</a></li>
-                        
+                    <li><a class="btn-green" href="{{route('Trainers.index')}}">Mis clientes</a></li> 
                     <!-- Agrega más opciones según sea necesario -->
                 </ul>
             </aside>

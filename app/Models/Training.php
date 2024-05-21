@@ -26,4 +26,50 @@ class Training extends Model
     {
         return $this->belongsToMany(User::class, 'user_training');
     }
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    // Setter for 'id'
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+    // Getter for 'name'
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    // Setter for 'name'
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    // Getter for 'day'
+    public function getDay()
+    {
+        return $this->day;
+    }
+
+    // Setter for 'day'
+    public function setDay($day)
+    {
+        $this->day = $day;
+    }
+
+    // Getter for 'trainer_id'
+    public function getTrainerId()
+    {
+        return $this->trainer_id;
+    }
+
+    // Setter for 'trainer_id'
+    public function setTrainerId($trainer_id)
+    {
+        $this->trainer_id = $trainer_id;
+    }
 }
