@@ -97,8 +97,6 @@ class TrainerController extends Controller
     {
         //Comprar que el que el entrenador de este cliente es el de la session
 
-
-
         $user = User::findOrFail($userId);
 
         $trainerId = $user->trainer_id;
@@ -115,10 +113,29 @@ class TrainerController extends Controller
         return view('trainings.show', compact('trainingsAssigned', 'trainingsAvailable'));
     }
 
-    public function assignTrainings($id)
+    public function assignTrainings($request)
     {
+        $request->validate([
+            'training_ids' => 'required|array',
+            'training_ids.*' => 'exists:trainings,id',
+        ]);
+        
+        $authUser = auth()->user();
 
+        //El id del usuario que vamos a editar los entrenamientos
+        $request->input('user_id'); 
 
+        //Comprobar que este usuario esta dentro de los usuarios del entrenador
+        $user = User::findOrFail($request->input('user_id'));
+        if ($authUser->id!== $user->trainer_id) {
+            return redirect()->back()->with('error', 'No tienes permiso para asignar entrenamientos a este usuario.');
+        }
+
+        // Asignar los entrenamientos al usuario
+        $user->trainings()->attach($request->input('training_ids'));
+
+        // Redirigir con éxito
+        return redirect()->route('trainings.show', $request->input('user_id'))->with('success', 'Entrenamientos asignados correctamente.');
 
     }
 
