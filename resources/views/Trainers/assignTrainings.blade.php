@@ -20,6 +20,7 @@
                         @csrf
                         <input type="hidden" name="trainingsAssigned" id="left-table-form">
                         <input type="hidden" name="trainingsAvailable" id="right-table-form">
+                        <input type="hidden" name="userId" value="{{$userId}}">
                         <button type="submit" class="btn btn-primary">Guardar</button>
                     </form>
                 </div>

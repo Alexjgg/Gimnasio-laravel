@@ -102,7 +102,9 @@ class TrainerController extends Controller
         $trainerId = $user->trainer_id;
 
         $trainingsAssigned = $user->trainings;
-
+        $controller = route('Trainer.assignTrainings');
+        $user_id = $userId;
+        $titel="Entrenamientos de ".$user->name." ";
         // Obtener los entrenamientos del entrenador del usuario
         $trainingsAvailable = Training::where('trainer_id', $trainerId)
             ->whereDoesntHave('users', function ($query) use ($userId) {
@@ -110,26 +112,30 @@ class TrainerController extends Controller
             })
             ->get();
 
-        return view('trainings.show', compact('trainingsAssigned', 'trainingsAvailable'));
+        return view('trainers.assignTrainings',['titel' => $titel, 'controller' => $controller, 'trainingsAssigned' => $trainingsAssigned, 'trainingsAvailable' => $trainingsAvailable,'userId'=>$userId], ['js' => ['tableChanges.js']]);
     }
 
     public function assignTrainings($request)
     {
-        $request->validate([
-            'training_ids' => 'required|array',
-            'training_ids.*' => 'exists:trainings,id',
-        ]);
         
         $authUser = auth()->user();
 
-        //El id del usuario que vamos a editar los entrenamientos
-        $request->input('user_id'); 
-
-        //Comprobar que este usuario esta dentro de los usuarios del entrenador
-        $user = User::findOrFail($request->input('user_id'));
-        if ($authUser->id!== $user->trainer_id) {
+        //El id del usuario que vamos a editar los entrenamientos         
+        $user = User::findOrFail($request->input('userId'));
+       //Comprobar que este usuario esta dentro de los usuarios del entrenador
+        
+       if ($authUser->id!== $user->trainer_id) {
             return redirect()->back()->with('error', 'No tienes permiso para asignar entrenamientos a este usuario.');
         }
+        //Procesando los datos del formulario
+
+
+            //Compruebo el insertatdo de ejercicios
+            if ($request->has('trainingsAssigned')) {
+                $trainingsIds = explode(';', $request->input('trainingsAssigned'));
+                $user->trainings()->sync($trainingsIds);
+
+            }
 
         // Asignar los entrenamientos al usuario
         $user->trainings()->attach($request->input('training_ids'));
